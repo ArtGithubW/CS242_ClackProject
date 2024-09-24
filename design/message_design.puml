@@ -1,0 +1,71 @@
+@startuml
+skinparam classAttributeIconSize 0
+
+package your_team_name.clack.message{
+    Message <|-- ListUsersMessage
+    Message <|-- LogoutMessage
+    Message <|-- TextMessage
+    Message <|-- FileMessage
+
+    abstract class Message {
+        + {static} MSGTYPE_ENCRYPTION : int
+        + {static} MSGTYPE_FILE : int
+        + {static} MSGTYPE_LISTUSERS : int
+        + {static} MSGTYPE_LOGOUT : int
+        + {static} MSGTYPE_TEXT : int
+        - timestamp : LocalDate <<final>>
+        - username : String <<final>>
+        + Message(username)
+        + getMessageType() : int
+        + getTimestamp() : LocalDate
+        + getUsername() : String
+        + {abstract} getData() : String[]
+        + {abstract} equals(Object) : boolean
+        + {abstract} hashCode() : int
+        + {abstract} toString() : String
+    }
+
+    class ListUsersMessage {
+        + ListUsersMessage(username)
+    }
+
+    class LogoutMessage {
+        + LogoutMessage(username)
+    }
+
+    class TextMessage {
+        - text : String <<final>>
+        + TextMessage(username, text)
+    }
+    note bottom of TextMessage: getData() returns text (in 1-element String[])
+
+    class FileMessage {
+        - filePath : String
+        - fileSaveAsName : String
+        - fileContents : String
+        + FileMessage(username, filePath, fileSaveAsPath)
+        + FileMessage(username, filePath)
+        + getFilePath() : String
+        + getFileSaveAsName() : String
+        + getFileContents() : String
+        + setFilePath() : void
+        + setFileSaveAsName() : void
+        + readFile() : void
+        + writeFile(writeFilename) : void
+    }
+    note bottom of FileMessage : getData() returns filePath,\nfileSaveAsName, and fileContents\nin 3-element String[]
+
+    note "getData() returns null" as NoDataNote
+    ListUsersMessage .. NoDataNote
+    LogoutMessage .. NoDataNote
+
+    /'
+    note "toString returns\n{class=<i>classname</i>|timestamp=<i>timestamp</i>|...}" as ToStringNote
+    ListUsersMessage .. ToStringNote
+    LogoutMessage .. ToStringNote
+    TextMessage .. ToStringNote
+    FileMessage .. ToStringNote
+    '/
+}
+
+@enduml
