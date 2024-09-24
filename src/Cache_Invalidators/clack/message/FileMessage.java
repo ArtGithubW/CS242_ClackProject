@@ -1,12 +1,13 @@
-package your_team_name.clack.message;
+package Cache_Invalidators.clack.message;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.io.PrintWriter;
+import java.io.File;
+import java.util.Objects;
 
 import java.io.FileNotFoundException;
 import java.io.IOException;
-import java.io.PrintStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.util.Arrays;
-import java.util.Objects;
+import java.lang.String;
 
 /**
  * This class represents messages containing the name and
@@ -36,10 +37,9 @@ public class FileMessage extends Message
     {
         super(username, MSGTYPE_FILE);
         this.filePath = filePath;
-        //TODO: parse the filename portion of fileSaveAsPath, and assign
-        // it to this.fileSaveAsName. NOTE: There are Java library routines
-        // for manipulating file paths and names. Don't re-invent!
-        this.fileSaveAsName = null;
+        // Creates path object from fileSaveAsPath string and getFileName then turn it into a string
+        Path f = Path.of(fileSaveAsPath);
+        this.fileSaveAsName = f.getFileName().toString();
         // This really should be null when object is created.
         this.fileContents = null;
     }
@@ -55,7 +55,7 @@ public class FileMessage extends Message
      */
     public FileMessage(String username, String filePath)
     {
-       this(username, filePath, filePath);
+        this(username, filePath, filePath);
     }
 
     /**
@@ -65,7 +65,7 @@ public class FileMessage extends Message
      */
     public String getFilePath()
     {
-        return filePath;
+        return this.filePath;
     }
 
     /**
@@ -74,8 +74,7 @@ public class FileMessage extends Message
      * @return the path where the file is to be written.
      */
     public String getFileSaveAsName() {
-        //TODO: Implement this. Return something other than null.
-        return null;
+        return this.fileSaveAsName;
     }
 
     /**
@@ -86,7 +85,7 @@ public class FileMessage extends Message
      */
     public void setFilePath(String filePath)
     {
-        //TODO: Implement this.
+        this.filePath = filePath;
     }
 
     /**
@@ -94,13 +93,17 @@ public class FileMessage extends Message
      * cause the file to be written -- that must be done with
      * writeFile(). It is an IllegalArgument exception if the
      * fileSaveAsName contains path components.
-     *
+     * @param fileSaveAsName filename
      * @throws IllegalArgumentException if fileSaveAsName contains path components
      */
     public void setFileSaveAsName(String fileSaveAsName)
     {
-        //TODO: implement this. Remember that Java has libraries
-        //  for manipulating file paths and names.
+        Path f = Path.of(fileSaveAsName);
+        // If getParent returns null then fileSaveAsName is file name, else it is a path
+        if(f.getParent() != null){
+            throw new IllegalArgumentException("fileSaveAsName contains path components");
+        }
+        this.fileSaveAsName = fileSaveAsName;
     }
 
     /**
@@ -115,15 +118,14 @@ public class FileMessage extends Message
     @Override
     public String[] getData()
     {
-        //TODO: Implement this. Return an array as described in the
-        //  JavaDoc, not null.
-        return null;
+        //TODO: No Null handling for fileContents
+        return new String[]{this.filePath, this.fileSaveAsName, this.fileContents};
     }
 
     /**
-     * Read contents of file 'fileName' into this message's fileContents.
+     * Read contents of file 'filePath' into this message's fileContents.
      *
-     * @throws IOException if the file named by this.filename does
+     * @throws IOException if the file named by this.filePath does
      * not exist or cannot be opened for reading.
      */
     /* Since Java 11, there's an easy way to do this. It even handles
@@ -131,9 +133,13 @@ public class FileMessage extends Message
      * (so we don't need to use try-with-resources). See
        https://howtodoinjava.com/java/io/java-read-file-to-string-examples/
      */
+
+    //! fileName is supposed to be this.filePath according to professor
     public void readFile() throws IOException
     {
-        //TODO: Implement this.
+        //readString() will throw IOException if read_file_path DNE
+        Path read_file_path = Path.of(this.filePath);
+        this.fileContents = Files.readString(read_file_path);
     }
 
     /**
@@ -144,30 +150,73 @@ public class FileMessage extends Message
      */
     public void writeFile() throws FileNotFoundException
     {
-        // TODO: Implement this. Use try-with-resources to ensure
-        //   output file is closed.
-        // HOLD OFF FOR NOW ON IMPLEMENTING THIS. There is a design
-        //   issue that we'll discuss in class.
+        int lastIndex = this.filePath.lastIndexOf("\\");
+        // Extracting the substring up to that last index where "\\" was found
+        // The expected path should be ""C:\\Users\\Admin\\IdeaProjects\\" from this operation
+        String directoryPath = this.filePath.substring(0, lastIndex+1);
+
+        // File will throw FileNotFoundException if the file can't be created/opened for writing
+        File file = new File(directoryPath + this.fileSaveAsName);
+        try (PrintWriter writer = new PrintWriter(file)){
+            writer.write(this.fileContents);
+        }
     }
 
+    /**
+     * Constructs a string representation of this object:
+     *   "{class=FileMessage|" + super.toString() <br>
+     *                  + "|filePath=" + this.getData()[0] <br>
+     *                 + "|fileSaveAsName=" + this.getData()[1] <br>
+     *                 + "|fileContents=" + this.getData()[2]" + }"
+     *
+     * @return this object's string representation.
+     */
     @Override
     public String toString()
     {
-        //TODO: Implement this. Should be similar to TextMessage class,
-        //  but include filePath, fileSaveAsName, and fileContents.
-        return null;
+        return "{class=FileMessage|"
+                + super.toString()
+                + "|filePath=" + this.getData()[0]
+                + "|fileSaveAsName=" + this.getData()[1]
+                + "|fileContents=" + this.getData()[2]
+                + '}';
     }
 
+    /**
+     * Equality comparison. Returns true if the other object is of
+     * the same class and all fields (including those inherited from
+     * superclasses) are equal.
+     *
+     * @param o the object to test for equality.
+     * @return whether o is of the same class as this, and all fields
+     * are equal.
+     */
     @Override
     public boolean equals(Object o)
     {
-        //TODO: Implement this.
+        if (o == this) {
+            return true;
+        }
+        //this operation checks if both objects are the same class instance
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+        //comparing Object o's values, note that Objects.equals() and Object.equals() are different
+        FileMessage that = (FileMessage) o;
+        return     Objects.equals(this.getData()[0], that.getData()[0])
+                && Objects.equals(this.getData()[1], that.getData()[1])
+                && Objects.equals(this.getData()[2], that.getData()[2]);
     }
 
+    /**
+     * Return this object's hash. In Message objects, this is simply the
+     * hash of the string returned by this.toString().
+     * @return hashCode of the object
+     */
     @Override
     public int hashCode()
     {
-        //TODO: Implement this.
+        return this.toString().hashCode();
     }
 
 }

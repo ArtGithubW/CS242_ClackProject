@@ -1,4 +1,4 @@
-package your_team_name.clack.message;
+package Cache_Invalidators.clack.message;
 
 import java.time.LocalDate;
 
@@ -9,11 +9,29 @@ import java.time.LocalDate;
  */
 public abstract class Message
 {
-    //TODO: JavaDoc for each of these public "manifest constants"
+    /**
+     * Constant representing an encryption message type.
+     */
     public static int MSGTYPE_ENCRYPTION = 0;
+
+    /**
+     * Constant representing a file transfer message type
+     */
     public static int MSGTYPE_FILE = 10;
+
+    /**
+     * Constant representing a list users message type
+     */
     public static int MSGTYPE_LISTUSERS = 20;
+
+    /**
+     * Constant representing a user logout message type
+     */
     public static int MSGTYPE_LOGOUT = 30;
+
+    /**
+     * Constant representing a user text message type
+     */
     public static int MSGTYPE_TEXT = 40;
 
     private final int msgType;
@@ -50,8 +68,7 @@ public abstract class Message
      */
     public int getMsgType()
     {
-        //TODO: implement this (return something other than null)
-        return null;
+        return this.msgType;
     }
 
     /**
@@ -61,8 +78,7 @@ public abstract class Message
      */
     public LocalDate getTimestamp()
     {
-        //TODO: implement this (return something other than null)
-        return null;
+        return this.timestamp;
     }
 
     /**
@@ -72,8 +88,7 @@ public abstract class Message
      */
     public String getUsername()
     {
-        //TODO: implement this (return something other than null)
-        return null;
+        return this.username;
     }
 
     /**
@@ -126,7 +141,6 @@ public abstract class Message
      */
     public String toString()
     {
-        //TODO: implement this (return what is described in the JavaDoc instead of null)
-        return null;
+        return "timestamp=" + this.timestamp + "|username=" + this.username;
     }
 }

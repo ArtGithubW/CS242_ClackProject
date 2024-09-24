@@ -1,7 +1,5 @@
-package your_team_name.clack.message;
-
+package Cache_Invalidators.clack.message;
 import java.util.Objects;
-
 /**
  * This class represents a command to the server, asking for
  * termination of the connection.
@@ -17,7 +15,7 @@ public class LogoutMessage extends Message
      */
     public LogoutMessage(String username)
     {
-        //TODO: Implement this. Use ListUsersMessage class as an example);
+        super(username, MSGTYPE_LOGOUT);
     }
 
     /**
@@ -29,7 +27,7 @@ public class LogoutMessage extends Message
     @Override
     public String[] getData()
     {
-        //TODO: Implement this according to JavaDoc. Use ListUsersMessage for an example.
+        return new String[0];
     }
 
     /**
@@ -44,8 +42,14 @@ public class LogoutMessage extends Message
     @Override
     public boolean equals(Object o)
     {
-        //TODO: Implement this according to JavaDoc. Use ListUsersMessage for an example.
-        return false;
+        if (o == this) {
+            return true;
+        }
+        if (o == null || o.getClass() != this.getClass()) {
+            return false;
+        }
+        ListUsersMessage that = (ListUsersMessage) o;
+        return Objects.equals(this.getData(),that.getData());
     }
 
     /**
@@ -57,8 +61,7 @@ public class LogoutMessage extends Message
     @Override
     public int hashCode()
     {
-        //TODO: Implement this according to JavaDoc. Use ListUsersMessage for an example.
-        return 0;
+        return this.toString().hashCode();
     }
 
     /**
@@ -70,7 +73,6 @@ public class LogoutMessage extends Message
     @Override
     public String toString()
     {
-        //TODO: Implement this according to JavaDoc. Use ListUsersMessage for an example.
-        return null;
+        return "{class=LogoutMessage|" + super.toString() + "}";
     }
 }

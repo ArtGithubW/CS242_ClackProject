@@ -1,4 +1,4 @@
-package your_team_name.clack.message;
+package Cache_Invalidators.clack.message;
 
 import java.util.Arrays;
 import java.util.Objects;
@@ -33,8 +33,7 @@ public class TextMessage extends Message
     @Override
     public String[] getData()
     {
-        //TODO: Implement this according to JavaDoc. Use ListUsersMessage for an example.
-        return null;
+        return new String[] {this.text};
     }
 
     /**
@@ -68,11 +67,15 @@ public class TextMessage extends Message
      */
     @Override
     public int hashCode() {
-        //TODO: Implement this according to JavaDoc
-        return 0;
+        return this.toString().hashCode();
     }
 
-    //TODO: JavaDoc
+    /**
+     * Return a string describing this object, including its class and content
+     * (timestamp, username, and text).
+     *
+     * @return a string describing this message object
+     */
     @Override
     public String toString() {
         return "{class=TextMessage|"

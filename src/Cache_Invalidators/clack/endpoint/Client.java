@@ -1,6 +1,6 @@
-package your_team_name.clack.endpoint;
+package Cache_Invalidators.clack.endpoint;
 
-import your_team_name.clack.message.Message;
+import Cache_Invalidators.clack.message.Message;
 
 public class Client
 {

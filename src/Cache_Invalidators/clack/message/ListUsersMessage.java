@@ -1,4 +1,4 @@
-package your_team_name.clack.message;
+package Cache_Invalidators.clack.message;
 
 import java.util.Objects;
 
