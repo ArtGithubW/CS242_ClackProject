@@ -1,7 +1,7 @@
 @startuml
 skinparam classAttributeIconSize 0
 
-package YOUR_TEAM_NAME.clack.endpoint {
+package Cache_Invalidators.clack.endpoint {
 /'
     Endpoint <|-- Client
     Endpoint <|-- Server
