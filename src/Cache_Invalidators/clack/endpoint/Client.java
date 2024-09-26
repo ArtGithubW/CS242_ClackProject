@@ -208,7 +208,7 @@ public class Client
      * @return a string containing username, current server name and port, incoming and outgoing message
      */
     public String toString() {
-        return "{class=Client|"
+        return "{class=Client"
                 + "|username=" + this.username
                 + "|serverName=" + this.serverName
                 + "|serverPort=" + this.serverPort
