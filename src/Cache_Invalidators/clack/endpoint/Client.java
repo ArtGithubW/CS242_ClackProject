@@ -72,11 +72,13 @@ public class Client
     public void start() {
         do
         {
-            // Print prompt
-            System.out.print("clack> ");
+            do {
+                // Prompt for input
+                System.out.print("clack> ");
 
-            // Generate the current outgoing message
-            this.messageToSend = readUserInput();
+                // Generate the current outgoing message
+                this.messageToSend = readUserInput();
+            } while (this.messageToSend == null);
 
             // "Send" the message (for now this just sends outgoing back to incoming)
             this.messageReceived = this.messageToSend;
@@ -134,7 +136,7 @@ public class Client
             }
             else {
                 System.out.println("SEND FILE <file1> [AS file2] - Send a file to all other users");
-                return readUserInput();
+                return null;
             }
 
             try {
@@ -143,14 +145,14 @@ public class Client
             }
             catch (Exception e) {
                 System.out.println("File error " + e.getMessage());
-                return readUserInput();
+                return null;
             }
         }
         else if (in.toUpperCase().startsWith("ENCRYPTION"))
         {
             //TODO: Implement encryption
             System.out.println("Encryption not implemented yet D:");
-            return readUserInput();
+            return null;
         }
         else if (in.toUpperCase().startsWith("HELP"))
         {
@@ -164,12 +166,12 @@ public class Client
             System.out.println("HELP - Display this help message");
 
             // call again because we have to return a message
-            return readUserInput();
+            return null;
         }
         else if (in.isEmpty())
         {
             // call again because we have to return a message
-            return readUserInput();
+            return null;
         }
         else {
             return new TextMessage(this.username, in);
