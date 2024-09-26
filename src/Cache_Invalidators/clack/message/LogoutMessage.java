@@ -48,7 +48,7 @@ public class LogoutMessage extends Message
         if (o == null || o.getClass() != this.getClass()) {
             return false;
         }
-        ListUsersMessage that = (ListUsersMessage) o;
+        LogoutMessage that = (LogoutMessage) o;
         return Objects.equals(this.getData(),that.getData());
     }
 
