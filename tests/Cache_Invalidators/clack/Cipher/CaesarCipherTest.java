@@ -1,11 +1,9 @@
-import Cache_Invalidators.clack.Cipher.CaesarCipher;
+package Cache_Invalidators.clack.Cipher;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.io.PrintStream;
 
 class CaesarCipherTest {
     private static CaesarCipher TestCipherDefault;

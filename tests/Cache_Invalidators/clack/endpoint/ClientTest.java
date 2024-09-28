@@ -1,8 +1,6 @@
-package Cache_Invalidators.tests;
+package Cache_Invalidators.clack.endpoint;
 
-import Cache_Invalidators.clack.endpoint.Client;
 import Cache_Invalidators.clack.message.*;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -54,17 +52,17 @@ class ClientTest {
     void readUserInputTest() throws IOException
     {
         final String[] inputs = {
-                "LIST USERS\n",                                                         // List users test
-                "SEND FILE ./src/Cache_Invalidators/tests/send.txt\n",                  // Send a file
-                "SEND FILE ./src/Cache_Invalidators/tests/send.txt AS rename.txt\n",    // Send a file and rename
-                "hello\n",                                                              // Send a regular message
-                "LOGOUT\n"                                                              // Test logout
+                "LIST USERS\n",                                                                     // List users test
+                "SEND FILE ./tests/Cache_Invalidators/clack/endpoint/send.txt\n",                   // Send a file
+                "SEND FILE ./tests/Cache_Invalidators/clack/endpoint/send.txt AS rename.txt \n",    // Send a file and rename
+                "hello\n",                                                                          // Send a regular message
+                "LOGOUT\n"                                                                          // Test logout
         };
 
-        FileMessage fileMessage1 = new FileMessage("demo", "./src/Cache_Invalidators/tests/send.txt");
+        FileMessage fileMessage1 = new FileMessage("demo", "./tests/Cache_Invalidators/clack/endpoint/send.txt");
         fileMessage1.readFile();
 
-        FileMessage fileMessage2 = new FileMessage("demo", "./src/Cache_Invalidators/tests/send.txt", "rename.txt");
+        FileMessage fileMessage2 = new FileMessage("demo", "./tests/Cache_Invalidators/clack/endpoint/send.txt", "rename.txt");
         fileMessage2.readFile();
 
         final Message[] results = {
