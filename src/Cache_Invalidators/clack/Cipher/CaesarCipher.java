@@ -9,17 +9,16 @@ public class CaesarCipher {
     /** Constructor for the CaesarCipher class that takes in custom Alphabet string
      *
      * @param key shift parameter
-     * @param alphabet Custom 26 char uppercase alphabet
+     * @param alphabet Custom user given alphabet.
+     *
+     * @throws IllegalArgumentException if alphabet contains duplicates
+     * @throws IllegalArgumentException if alphabet has characters that are NOT within the standard english alphabet(ඞ)
      */
     public CaesarCipher(int key, String alphabet) {
         this.key = key;
         this.alphabet = alphabet.toUpperCase();
 
-        // Throws IllegalArgumentException if provided alphabet is not of length 26
-        if(alphabet.length()!=26){
-            throw new IllegalArgumentException("Alphabet length must equal to 26");
-        }
-        // Throws IllegalArgumentException if alphabet contains any character that is not uppercase alphabet
+        // Throws IllegalArgumentException if a non english alphabet character
         if(!(Pattern.matches("[A-Z]+",this.alphabet))){
             throw new IllegalArgumentException("Alphabet contains invalid characters");
         }
@@ -48,10 +47,16 @@ public class CaesarCipher {
 
         for (int i = 0; i < clearText.length(); i++) {
             char ch = clearText.toUpperCase().charAt(i);
-            // if ch is a letter then shift ch to appropriate shifted letter, else append the blank space
+            // if ch is a character then append encrypted ch, blank if blank, ch itself if ch is not in given alphabet
             if (ch != ' ') {
-                ch = this.alphabet.charAt((this.alphabet.indexOf(ch)+this.key) % 26);
-                result.append(ch);
+                int index = this.alphabet.indexOf(ch);
+                //If the ch does not exist in the Alphabet then we append it unchanged
+                if (index != -1) {
+                    ch = this.alphabet.charAt((index + this.key) % this.alphabet.length());
+                    result.append(ch);
+                } else {
+                    result.append(ch);
+                }
             }
             else{
                 result.append(ch);
@@ -70,14 +75,21 @@ public class CaesarCipher {
 
         for (int i = 0; i < cipherText.length(); i++) {
             char ch = cipherText.toUpperCase().charAt(i);
-            // if ch is a letter then shift ch back to the appropriate letter
+            // if ch is a letter that exist in alphabet then shift ch back to the appropriate letter
             if (ch != ' ') {
-                int shiftedIndex = (this.alphabet.indexOf(ch) - this.key) % 26;
-                if (shiftedIndex < 0) {
-                    shiftedIndex += 26;  // Ensure positive index by adding 26
+                int index = this.alphabet.indexOf(ch);
+                //If the ch does not exist in the Alphabet then we append ch to result
+                if (index != -1) {
+                    int shiftedIndex = (this.alphabet.indexOf(ch) - this.key) % this.alphabet.length();
+                    if (shiftedIndex < 0) {
+                        shiftedIndex += this.alphabet.length();  // Ensure positive index by adding 26
+                    }
+                    ch = this.alphabet.charAt(shiftedIndex);
+                    result.append(ch);
                 }
-                ch = this.alphabet.charAt(shiftedIndex);
-                result.append(ch);
+                else{
+                    result.append(ch);
+                    }
             } else {
                 result.append(ch);
             }

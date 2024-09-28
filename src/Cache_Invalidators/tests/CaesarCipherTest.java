@@ -2,48 +2,55 @@ import Cache_Invalidators.clack.Cipher.CaesarCipher;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 
+import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+
+import java.io.PrintStream;
 
 class CaesarCipherTest {
-    @org.junit.jupiter.api.Test
-    void encryptTestDefault() {
-        CaesarCipher TestCipher = new CaesarCipher(4);
-        String actualEncrypted  = TestCipher.encrypt("HELLO World");
-        String expectedEncrypted = "Lipps Asvph".toUpperCase();
-        assertEquals(expectedEncrypted, actualEncrypted);
+    private static CaesarCipher TestCipherDefault;
+    private static CaesarCipher TestCipherCustom;
+
+    // Setting up a default alphabet test and custom alphabet test
+    @BeforeEach
+    void setUp()
+    {
+        TestCipherDefault = new CaesarCipher(4);
+        TestCipherCustom = new CaesarCipher(4,"ZXCVBNMASDFGJKLPOIUYTREWQ"); // Custom 25 Char alphabet that DOES NOT have 'H'
+
     }
-    @org.junit.jupiter.api.Test
-    void encryptTestCustom() {
-        CaesarCipher TestCipher = new CaesarCipher(4,"ZXCVBNMASDFGHJKLPOIUYTREWQ");
-        String actualEncrypted  = TestCipher.encrypt("HELLO World");
-        String expectedEncrypted = "PXUUT CTZUJ".toUpperCase();
-        assertEquals(expectedEncrypted, actualEncrypted);
+    // Testing for encrypt function for both constructors
+    @Test
+    void encryptTest() {
+
+        String actualEncrypted  = TestCipherDefault.encrypt("HELLO World");
+        String actualEncryptedCustom  = TestCipherCustom.encrypt("Hello wOrlD");
+        String ExpectedEncrypted = "Lipps Asvph".toUpperCase();
+        String ExpectedEncryptedCustom = "HXUUT CTZUK".toUpperCase();
+        assertEquals(ExpectedEncrypted, actualEncrypted);
+        assertEquals(ExpectedEncryptedCustom, actualEncryptedCustom);
     }
-    @org.junit.jupiter.api.Test
-    void decryptTestDefault() {
-        CaesarCipher TestCipher = new CaesarCipher(4);
-        String actualEncrypted  = TestCipher.decrypt("LIPPS ASVPH");
-        String expectedEncrypted = "HELLO World".toUpperCase();
-        assertEquals(expectedEncrypted, actualEncrypted);
+
+    // Testing for decrypt function for both constructors
+    @Test
+    void decryptTest() {
+        String actualDecrypt  = TestCipherDefault.decrypt("Lipps Asvph");
+        String actualDecryptCustom  = TestCipherCustom.decrypt("QXJQRDP G KXMXDQ UTDP JQZRDP CRQH HXUUT CTZUK");
+        String ExpectedDecrypt = "Hello world".toUpperCase();
+        String ExpectedDecryptCustom = "Testing a decent long string with HELLO WORLD".toUpperCase();
+        assertEquals(ExpectedDecrypt, actualDecrypt);
+        assertEquals(ExpectedDecryptCustom, actualDecryptCustom);
     }
-    @org.junit.jupiter.api.Test
-    void decryptTestCustom() {
-        CaesarCipher TestCipher = new CaesarCipher(4,"ZXCVBNMASDFGHJKLPOIUYTREWQ");
-        String actualEncrypted  = TestCipher.decrypt("PXUUT CTZUJ");
-        String expectedEncrypted = "HELLO World".toUpperCase();
-        assertEquals(expectedEncrypted, actualEncrypted);
-    }
-    @org.junit.jupiter.api.Test
+
+    // Testing getAlphabet function for both constructors
+    @Test
     void getAlphabetTestDefault() {
-        CaesarCipher TestCipher = new CaesarCipher(4);
-        String actualAlphabet = TestCipher.getAlphabet();
+        String actualAlphabet = TestCipherDefault.getAlphabet();
+        String actualAlphabetCustom = TestCipherCustom.getAlphabet();
         String expectedAlphabet= "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+        String expectedAlphabetCustom= "ZXCVBNMASDFGJKLPOIUYTREWQ";
         assertEquals(expectedAlphabet, actualAlphabet);
+        assertEquals(expectedAlphabetCustom, actualAlphabetCustom);
     }
-    @org.junit.jupiter.api.Test
-    void getAlphabetTestCustom() {
-        CaesarCipher TestCipher = new CaesarCipher(4,"ZXCVBNMASDFGHJKLPOIUYTREWQ");
-        String actualAlphabet = TestCipher.getAlphabet();
-        String expectedAlphabet= "ZXCVBNMASDFGHJKLPOIUYTREWQ";
-        assertEquals(expectedAlphabet, actualAlphabet);
-    }
+
 }
