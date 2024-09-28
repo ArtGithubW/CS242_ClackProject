@@ -45,7 +45,7 @@ class FileMessageTest {
     void testEquals() {
         FileMessage fileMessage = new FileMessage("Art","./tests/Cache_Invalidators/clack/message/name.txt","./tests/Cache_Invalidators/clack/message/output.txt");
         FileMessage fileMessage2 = new FileMessage("Art","./tests/Cache_Invalidators/clack/message/name.txt","./tests/Cache_Invalidators/clack/message/output.txt");
-        assertEquals(true,fileMessage.equals(fileMessage2));
+        assertTrue(fileMessage.equals(fileMessage2));
     }
 
 }
