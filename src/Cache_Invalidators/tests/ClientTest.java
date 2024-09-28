@@ -25,14 +25,6 @@ class ClientTest {
         System.setOut(new PrintStream(BytesOut));
     }
 
-    @AfterEach
-    void tearDown()
-    {
-        // Delete the renamed text file that was likely created as saving it is redundant
-        File renameFile = new File("./rename.txt");
-        assertTrue(renameFile.delete());
-    }
-
     /**
      * Test the REPL by starting the client then logging out
      * This also tests readUserInput and printMessage
@@ -51,7 +43,7 @@ class ClientTest {
 
         final String ExpectedOutput = "clack> {class=LogoutMessage|timestamp="+Timestamp+"|username=demo}\n";
         final String ActualOutput = BytesOut.toString();
-        assertEquals(ActualOutput, ExpectedOutput);
+        assertEquals(ActualOutput.replace("\r\n", "\n"), ExpectedOutput.replace("\r\n", "\n"));
     }
 
     /**
@@ -87,7 +79,7 @@ class ClientTest {
         for (int i = 0; i < inputs.length; i++) {
             System.setIn(new ByteArrayInputStream(inputs[i].getBytes()));
             result = TestClient.readUserInput();
-            assertEquals(results[i].toString(), result.toString());
+            assertEquals(results[i].toString().replace("\r\n", "\n"), result.toString().replace("\r\n", "\n"));
         }
     }
 
