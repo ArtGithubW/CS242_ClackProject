@@ -7,9 +7,9 @@ public class CaesarCipher {
     private String alphabet;
 
     /** Constructor for the CaesarCipher class that takes in custom Alphabet string
-     *
-     * @param key shift parameter
-     * @param alphabet Custom user given alphabet.
+     *  All encrypted and decrypted outputs are Uppercased.
+     * @param key shift parameter(0 is accepted)
+     * @param alphabet Custom user given alphabet.(Empty is Accepted)
      *
      * @throws IllegalArgumentException if alphabet contains duplicates
      * @throws IllegalArgumentException if alphabet has characters that are NOT within the standard english alphabet(ඞ)
@@ -22,7 +22,6 @@ public class CaesarCipher {
         if(!(Pattern.matches("[A-Z]+",this.alphabet))){
             throw new IllegalArgumentException("Alphabet contains invalid characters");
         }
-
         // Throws IllegalArgumentException if the alphabet contains duplicate chars
         if(this.alphabet.length() != this.alphabet.chars().distinct().count()){
             throw new IllegalArgumentException("Alphabet contains duplicate characters");

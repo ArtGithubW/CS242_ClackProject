@@ -41,7 +41,7 @@ public class FileMessage extends Message
         Path f = Path.of(fileSaveAsPath);
         this.fileSaveAsName = f.getFileName().toString();
         // This really should be null when object is created.
-        this.fileContents = null;
+        this.fileContents = "";
     }
 
     /**
@@ -66,6 +66,16 @@ public class FileMessage extends Message
     public String getFilePath()
     {
         return this.filePath;
+    }
+
+    /**
+     * Get the fileContents
+     *
+     * @return the Object's fileContents to the file to read.
+     */
+    public String getFileContents()
+    {
+        return this.fileContents;
     }
 
     /**
@@ -118,7 +128,6 @@ public class FileMessage extends Message
     @Override
     public String[] getData()
     {
-        //TODO: No Null handling for fileContents
         return new String[]{this.filePath, this.fileSaveAsName, this.fileContents};
     }
 
@@ -151,8 +160,6 @@ public class FileMessage extends Message
     public void writeFile() throws FileNotFoundException
     {
         int lastIndex = this.filePath.lastIndexOf("\\");
-        // Extracting the substring up to that last index where "\\" was found
-        // The expected path should be ""C:\\Users\\Admin\\IdeaProjects\\" from this operation
         String directoryPath = this.filePath.substring(0, lastIndex+1);
 
         // File will throw FileNotFoundException if the file can't be created/opened for writing
@@ -160,16 +167,6 @@ public class FileMessage extends Message
         try (PrintWriter writer = new PrintWriter(file)){
             writer.write(this.fileContents);
         }
-    }
-
-    /**
-     * Return the contents of this FileMessage's file
-     * This was not in the original spec, but it was in the JUnit tests
-     *
-     * @return the contents of the loaded file
-     */
-    public String getFileContents() {
-        return this.fileContents;
     }
 
     /**
@@ -213,7 +210,8 @@ public class FileMessage extends Message
         }
         //comparing Object o's values, note that Objects.equals() and Object.equals() are different
         FileMessage that = (FileMessage) o;
-        return     Objects.equals(this.getData()[0], that.getData()[0])
+        return  Objects.equals(this.getUsername(), that.getUsername())
+                && Objects.equals(this.getData()[0], that.getData()[0])
                 && Objects.equals(this.getData()[1], that.getData()[1])
                 && Objects.equals(this.getData()[2], that.getData()[2]);
     }
