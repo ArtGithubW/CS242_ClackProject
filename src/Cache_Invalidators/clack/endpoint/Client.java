@@ -25,6 +25,10 @@ public class Client
     private Message messageToSend;
     private Message messageReceived;
 
+    //Encryption parameters, these may be refactored if a specific symbol is required for later project parts
+    private String encryptionKey;
+    private boolean encryptionEnable;
+
     /**
      * Create a client instance using a username, server name, and server port
      * @param username a unique string representing a user
@@ -148,9 +152,27 @@ public class Client
         }
         else if (in.toUpperCase().startsWith("ENCRYPTION"))
         {
-            //TODO: Implement encryption
-            System.out.println("Encryption not implemented yet D:");
-            return null;
+            System.err.println("Warning: Encryption not implemented yet, this does not actually encrypt your message");
+            String[] args = in.trim().replaceAll(" +"," ").split(" ");
+            if (args.length == 3 && args[1].equalsIgnoreCase("KEY")) { // encryption key
+                this.encryptionKey = args[2];
+                return new EncryptionKey(username,args[2]);
+            }
+            else if (args.length == 2 && args[1].equalsIgnoreCase("ON") && this.encryptionKey != null) { // encryption option with key defined
+                this.encryptionEnable = true;
+                return new EncryptionOption(username,true);
+            }
+            else if (args.length == 2 && args[1].equalsIgnoreCase("ON") && this.encryptionKey == null) { // encryption option without key
+                return new HelpMessage(username,"No key defined, see \"ENCRYPTION\" help text");
+            }
+            else if (args.length == 2 && args[1].equalsIgnoreCase("OFF")) { // encryption option
+                this.encryptionEnable = false;
+                return new EncryptionOption(username,false);
+            }
+            else {
+                return new HelpMessage(username,"See \"ENCRYPTION\" help text");
+            }
+
         }
         else if (in.toUpperCase().startsWith("HELP"))
         {
