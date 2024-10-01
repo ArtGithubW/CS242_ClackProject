@@ -163,6 +163,16 @@ public class FileMessage extends Message
     }
 
     /**
+     * Return the contents of this FileMessage's file
+     * This was not in the original spec, but it was in the JUnit tests
+     *
+     * @return the contents of the loaded file
+     */
+    public String getFileContents() {
+        return this.fileContents;
+    }
+
+    /**
      * Constructs a string representation of this object:
      *   "{class=FileMessage|" + super.toString() <br>
      *                  + "|filePath=" + this.getData()[0] <br>

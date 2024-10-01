@@ -1,3 +1,5 @@
+//TODO: FIX TIMESTAMP BUGS! TESTS WILL FAIL EVEN IF NOTHING IS WRONG
+
 package Cache_Invalidators.clack.endpoint;
 
 import Cache_Invalidators.clack.message.*;
@@ -5,13 +7,13 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.*;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 class ClientTest {
     private static Client TestClient;
     private static final ByteArrayOutputStream BytesOut = new ByteArrayOutputStream();
-    private final LocalDate Timestamp = LocalDate.now();
+    private static final LocalDateTime Timestamp = null;
 
     @BeforeEach
     void setUp()

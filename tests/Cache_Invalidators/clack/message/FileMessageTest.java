@@ -1,7 +1,7 @@
 package Cache_Invalidators.clack.message;
 
 import java.io.IOException;
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 import static org.junit.jupiter.api.Assertions.*;
 class FileMessageTest {
@@ -36,7 +36,7 @@ class FileMessageTest {
     @org.junit.jupiter.api.Test
     void testToString() {
         FileMessage fileMessage = new FileMessage("Art","./tests/Cache_Invalidators/clack/message/name.txt","./tests/Cache_Invalidators/clack/message/output.txt");
-        LocalDate Timestamp = LocalDate.now();
+        LocalDateTime Timestamp = fileMessage.getTimestamp();
         String expectedString = "{class=FileMessage|timestamp="+Timestamp+"|username=Art|filePath=./tests/Cache_Invalidators/clack/message/name.txt|fileSaveAsName=output.txt|fileContents=null}";
         assertEquals(expectedString, fileMessage.toString());
     }

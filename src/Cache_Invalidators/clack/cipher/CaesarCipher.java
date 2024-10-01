@@ -1,4 +1,4 @@
-package Cache_Invalidators.clack.Cipher;
+package Cache_Invalidators.clack.cipher;
 import java.util.regex.Pattern;
 
 public class CaesarCipher {

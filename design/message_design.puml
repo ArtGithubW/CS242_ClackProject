@@ -13,11 +13,11 @@ package Cache_Invalidators.clack.message{
         + {static} MSGTYPE_LISTUSERS : int
         + {static} MSGTYPE_LOGOUT : int
         + {static} MSGTYPE_TEXT : int
-        - timestamp : LocalDate <<final>>
+        - timestamp : LocalDateTime <<final>>
         - username : String <<final>>
         + Message(username)
         + getMessageType() : int
-        + getTimestamp() : LocalDate
+        + getTimestamp() : LocalDateTime
         + getUsername() : String
         + {abstract} getData() : String[]
         + {abstract} equals(Object) : boolean

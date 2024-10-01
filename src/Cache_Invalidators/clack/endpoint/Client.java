@@ -135,8 +135,7 @@ public class Client
                 file = new FileMessage(this.username,args[2],args[4]);
             }
             else {
-                System.out.println("SEND FILE <file1> [AS file2] - Send a file to all other users");
-                return null;
+                return new HelpMessage(username,"See \"SEND FILE\" help text");
             }
 
             try {
@@ -144,8 +143,7 @@ public class Client
                 return file;
             }
             catch (Exception e) {
-                System.out.println("File error " + e.getMessage());
-                return null;
+                return new HelpMessage(username,"File error " + e.getMessage());
             }
         }
         else if (in.toUpperCase().startsWith("ENCRYPTION"))
@@ -157,16 +155,7 @@ public class Client
         else if (in.toUpperCase().startsWith("HELP"))
         {
             // Show a help message
-            System.out.println("<required> [optional]\nKEYWORD parameter\n");
-            System.out.println("LOGOUT - Disconnect from the server and close the client");
-            System.out.println("LIST USERS - List all users connected to the server");
-            System.out.println("SEND FILE <file1> [AS file2] - Send a file to all other users");
-            System.out.println("ENCRYPTION KEY <key> - Set encryption parameters");
-            System.out.println("ENCRYPTION <ON|OFF> - Enable or disable encryption");
-            System.out.println("HELP - Display this help message");
-
-            // call again because we have to return a message
-            return null;
+            return new HelpMessage(username);
         }
         else if (in.isEmpty())
         {
