@@ -107,7 +107,7 @@ class ClientTest {
      * @precondition startTest() passes
      */
     @Test
-    void testToStringTest()
+    void toStringTest()
     {
         final String userString = "LOGOUT\n"; // simulated user input
         byte[] userBytes = userString.getBytes();
