@@ -13,6 +13,7 @@ public class EncryptionKey extends Message
     /**
      * Constructs a encryption key message using a username and key
      * @param username the username of the current user
+     * @param key the encryption key to use
      */
     public EncryptionKey (String username, String key) {
         super (username,MSGTYPE_ENCRYPTION);

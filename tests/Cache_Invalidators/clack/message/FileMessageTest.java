@@ -201,7 +201,7 @@ class FileMessageTest {
         // Read temp file, to put something into fileContents field.
         msg3.readFile();
         msg3.writeFile();
-        whatWeWrote = Files.readString(Path.of( TEST_FILE_AS_STR));
+        whatWeWrote = Files.readString(Path.of(TEST_FILE_AS_STR));
         assertEquals(FILE_CONTENTS, whatWeWrote);
     }
 

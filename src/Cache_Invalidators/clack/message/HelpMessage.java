@@ -8,7 +8,11 @@ import java.util.Objects;
  */
 public class HelpMessage extends Message
 {
-    private String help;
+    private final String help;
+
+    /**
+     * The default help text
+     */
     public static String HELP = """
             <required> [optional]
             KEYWORD parameter

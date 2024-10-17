@@ -13,6 +13,7 @@ public class EncryptionOption extends Message
     /**
      * Constructs a encryption option message using a username and option
      * @param username the username of the current user
+     * @param enable should encryption be enabled or disabled
      */
     public EncryptionOption(String username, boolean enable) {
         super (username,MSGTYPE_ENCRYPTION);

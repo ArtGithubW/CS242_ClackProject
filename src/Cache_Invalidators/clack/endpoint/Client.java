@@ -4,6 +4,9 @@ import Cache_Invalidators.clack.message.*;
 
 import java.util.Scanner;
 
+/**
+ * Implements basic client functionality required to interface with a user and send clack messages
+ */
 public class Client
 {
     /**
@@ -110,7 +113,7 @@ public class Client
      */
     public Message readUserInput() {
         Scanner scanner = new Scanner(System.in);
-        String in = scanner.nextLine(); // Get a line of input
+        String in = scanner.nextLine().stripLeading(); // Get a line of input
 
         // Switching logic - either run a command or just send a message
         if (in.toUpperCase().startsWith("LOGOUT"))

@@ -46,13 +46,14 @@ public abstract class Message
     /**
      * Constructs a Message object with a given username.
      *
-     * <b><i>NOTE that the access level is "protected".</i></b></B>
+     * <b><i>NOTE that the access level is "protected".</i></b>
      * This means that only subclasses of this class can call this
      * constructor. This is (in part) because only a concrete
      * subclass will know what argument to give for the msgType
      * parameter.
      *
      * @param username name of user creating this message.
+     * @param msgType the class of message that this object is
      */
     protected Message(String username, int msgType)
     {
